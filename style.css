@@ -1,666 +1,770 @@
 :root {
-    --primary-color: #0a041a;
-    --secondary-color: #1a103d;
-    --blue-color: #0f2c59;
-    --accent-color: #7e57c2;
-    --highlight-color: #42a5f5;
-    --light-text: rgba(255, 255, 255, 0.95);
-    --glass-bg: rgba(126, 87, 194, 0.02);
-    --glass-border: rgba(126, 87, 194, 0.05);
-    --shadow-color: rgba(10, 4, 26, 0.3);
-    --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --glow: 0 0 15px rgba(66, 165, 245, 0.2);
+  --bg-primary: #12141D;
+  --bg-secondary: #1a1c2a;
+  --text-primary: #F0F0F0;
+  --text-secondary: #CCCCCC;
+  --accent: #4C587D;
+  --accent-hover: #6E85B2;
+  --highlight: #6E85B2;
+  --shadow-inset: inset 6px 6px 12px #0f1118, inset -6px -6px 12px #151726;
+  --shadow-outset: 6px 6px 12px #0f1118, -6px -6px 12px #151726;
+  --transition: all 0.3s ease;
+  --border-radius: 24px;
+  --card-padding: 30px;
+  --player-height-collapsed: 50px; /* Высота свернутого плеера */
+  --player-height-expanded: 200px; /* Примерная высота развернутого плеера */
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(135deg, var(--primary-color), var(--blue-color));
-    color: var(--light-text);
-    line-height: 1.7;
-    padding: 20px;
-    min-height: 100vh;
-    background-attachment: fixed;
-    position: relative;
-    overflow-x: hidden;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 10% 20%, rgba(126, 87, 194, 0.03) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(66, 165, 245, 0.03) 0%, transparent 20%);
-    z-index: -1;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  padding: 20px;
+  min-height: 100vh;
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+  /* Убираем нижний отступ, так как плеер теперь сверху */
+  padding-bottom: 20px; /* Оставляем минимальный отступ */
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 header {
-    text-align: center;
-    padding: 40px 20px;
-    margin-bottom: 40px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--shadow-color);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 40px;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-outset);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
-header::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(126, 87, 194, 0.05) 0%, transparent 70%);
-    animation: pulse 8s infinite alternate;
-}
-
-@keyframes pulse {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(10deg); }
+header:hover {
+  box-shadow: var(--shadow-inset);
 }
 
 h1 {
-    font-size: 3.2rem;
-    margin-bottom: 15px;
-    background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 10px rgba(126, 87, 194, 0.2);
-    font-weight: 700;
-    letter-spacing: -0.5px;
+  font-size: 3.2rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--accent), var(--highlight));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-    font-size: 1.2rem;
-    opacity: 0.85;
-    margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 300;
+  font-size: 1.2rem;
+  opacity: 0.85;
+  margin-bottom: 30px;
+  color: var(--text-secondary);
+  font-weight: 300;
 }
 
 .card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 35px;
-    margin-bottom: 35px;
-    box-shadow: 0 10px 40px var(--shadow-color);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    border-width: 1px;
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 10% 20%, rgba(126, 87, 194, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(66, 165, 245, 0.03) 0%, transparent 40%);
-    z-index: -1;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: var(--card-padding);
+  margin-bottom: 35px;
+  box-shadow: var(--shadow-outset);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 50px var(--shadow-color), var(--glow);
-    border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-inset);
+  transform: translateY(-5px);
 }
 
 .card h2 {
-    font-size: 2.2rem;
-    margin-bottom: 25px;
-    color: var(--accent-color);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-weight: 600;
-    position: relative;
-    padding-left: 20px;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 20px;
 }
 
 .card h2::before {
-    content: "";
-    width: 6px;
-    height: 35px;
-    background: var(--accent-color);
-    border-radius: 3px;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+  content: "";
+  width: 6px;
+  height: 35px;
+  background: var(--accent);
+  border-radius: 3px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .card p {
-    margin-bottom: 20px;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
 }
 
 .resource-card p {
-    margin-bottom: 15px;
-    font-size: 1.0rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 15px;
+  font-size: 1.0rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 .code-block {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 16px;
-    padding: 25px;
-    margin: 25px 0;
-    overflow-x: auto;
-    font-family: 'Fira Code', 'Courier New', Courier, monospace;
-    font-size: 0.95rem;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    transition: var(--transition);
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 25px;
+  margin: 25px 0;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-outset);
+  transition: var(--transition);
 }
 
 .code-block:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-inset);
 }
 
 .code-block pre {
-    margin: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: var(--text-secondary);
 }
 
 .image-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-    margin: 30px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  margin: 30px 0;
 }
 
 .image-item {
-    width: 100%;
-    max-width: 900px;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-    transition: var(--transition);
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.image-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-    z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-outset);
+  transition: var(--transition);
+  position: relative;
 }
 
 .image-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  box-shadow: var(--shadow-inset);
+  transform: scale(1.03);
 }
 
 .image-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: filter 0.3s ease;
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.3s ease;
 }
 
 .image-item:hover img {
-    filter: brightness(1.05);
+  filter: brightness(1.05);
 }
 
 .section-title {
-    font-size: 1.9rem;
-    margin: 35px 0 25px;
-    color: var(--accent-color);
-    position: relative;
-    padding-left: 20px;
-    font-weight: 600;
+  font-size: 1.9rem;
+  margin: 35px 0 25px;
+  color: var(--accent);
+  position: relative;
+  padding-left: 20px;
+  font-weight: 600;
 }
 
 .section-title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 30px;
-    background: var(--accent-color);
-    border-radius: 3px;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 30px;
+  background: var(--accent);
+  border-radius: 3px;
 }
 
 .resources {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 35px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 35px;
 }
 
 .resource-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 18px;
-    padding: 25px;
-    transition: var(--transition);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  background: var(--bg-secondary);
+  border-radius: 18px;
+  padding: 25px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-outset);
 }
 
 .resource-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15), var(--glow);
-    border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-inset);
+  transform: translateY(-5px);
 }
 
 .resource-card h3 {
-    color: var(--accent-color);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.3rem;
-    font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .resource-card a {
-    color: var(--highlight-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: var(--transition);
-    display: inline-block;
-    position: relative;
-    padding: 5px 0;
+  color: var(--highlight);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-block;
+  position: relative;
+  padding: 5px 0;
 }
 
 .resource-card a::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--highlight-color);
-    transition: width 0.3s ease;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--highlight);
+  transition: width 0.3s ease;
 }
 
 .resource-card a:hover::after {
-    width: 100%;
-}
-
-footer {
-    text-align: center;
-    padding: 35px;
-    margin-top: 45px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.9rem;
-    opacity: 0.8;
-    background: rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 18px;
+  width: 100%;
 }
 
 .quote {
-    font-style: italic;
-    font-size: 1.2rem;
-    padding: 25px;
-    margin: 25px 0;
-    border-left: 5px solid var(--accent-color);
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 16px;
-    position: relative;
-    overflow: hidden;
+  font-style: italic;
+  font-size: 1.2rem;
+  padding: 25px;
+  margin: 25px 0;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-outset);
+}
+
+.quote:hover {
+  box-shadow: var(--shadow-inset);
 }
 
 .quote::before {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 4rem;
-    color: rgba(126, 87, 194, 0.1);
-    font-family: Georgia, serif;
-    line-height: 1;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 4rem;
+  color: rgba(126, 87, 194, 0.1);
+  font-family: Georgia, serif;
+  line-height: 1;
 }
 
 .highlight {
-    color: var(--highlight-color);
-    font-weight: 600;
-    position: relative;
+  color: var(--highlight);
+  font-weight: 600;
+  position: relative;
 }
 
 .highlight::after {
-    content: "";
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--highlight-color);
-    opacity: 0.3;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--highlight);
+  opacity: 0.3;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
 }
 
 .highlight:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-/* Стили для аудио плеера */
-.audio-container {
-    margin: 25px 0;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+footer {
+  text-align: center;
+  padding: 35px;
+  margin-top: 45px;
+  background: var(--bg-secondary);
+  border-radius: 18px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  box-shadow: var(--shadow-outset);
 }
 
-.audio-container h4 {
-    margin-bottom: 12px;
-    color: var(--highlight-color);
-    font-weight: 600;
+/* === УЛУЧШЕННЫЙ МОБИЛЬНЫЙ ПЛЕЕР: СВЕРНУТЫЙ / РАЗВЕРНУТЫЙ === */
+
+/* Десктоп: обычный плеер */
+.sticky-audio-player {
+  position: fixed;
+  top: 20px; /* Теперь сверху */
+  right: 20px;
+  z-index: 1000;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 12px;
+  box-shadow: var(--shadow-outset);
+  width: 320px;
+  max-width: 90vw;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Кастомный аудио плеер */
-.audio-player {
-    width: 100%;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.sticky-audio-player:hover {
+  box-shadow: var(--shadow-inset);
 }
 
-.audio-player::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(126, 87, 194, 0.1) 0%, transparent 100%);
-    z-index: 1;
+.current-track-info {
+  font-size: 0.85rem;
+  color: var(--highlight);
+  text-align: center;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer; /* Показывает, что элемент кликабелен */
 }
 
-.audio-player-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 2;
+.player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
 }
 
-.audio-play-btn {
-    width: 30px;
-    height: 30px;
-    background: var(--highlight-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    border: none;
-    outline: none;
+.audio-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--highlight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  outline: none;
+  box-shadow: 3px 3px 6px #0f1118, -3px -3px 6px #151726;
 }
 
-.audio-play-btn:hover {
-    transform: scale(1.1);
+.audio-btn:hover {
+  transform: scale(1.1);
+  background: var(--accent);
 }
 
-.audio-play-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: white;
+.audio-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: white;
 }
 
 .audio-progress-container {
-    flex-grow: 1;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    margin: 0 10px;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
+  width: 100%;
+  height: 4px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 4px #0f1118, inset -2px -2px 4px #151726;
+  position: relative;
 }
 
 .audio-progress-bar {
-    height: 100%;
-    background: var(--highlight-color);
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.1s linear;
+  height: 100%;
+  background: var(--highlight);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+  position: relative;
 }
 
-.audio-time {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
-    min-width: 40px;
-    text-align: right;
-    z-index: 2;
+.audio-progress-bar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--highlight);
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-/* Стили для скроллбара */
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-track {
-    background: rgba(10, 4, 26, 0.3);
-    border-radius: 5px;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 5px;
-    border: 2px solid rgba(10, 4, 26, 0.5);
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--highlight-color);
+.audio-progress-container:hover .audio-progress-bar::after {
+  opacity: 1;
 }
 
-/* Стили для мобильных устройств */
+.time-container {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 100px;
+  overflow-y: auto;
+  padding: 6px 0;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.track-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.track-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.track-item.active {
+  background: rgba(106, 133, 178, 0.2);
+  border-left: 2px solid var(--highlight);
+}
+
+.track-item.active .track-title {
+  font-weight: 500;
+  color: var(--highlight);
+}
+
+.track-title {
+  flex-grow: 1;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play-track-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.play-track-btn:hover {
+  opacity: 1;
+}
+
+.play-track-btn svg {
+  fill: var(--text-secondary);
+  width: 12px;
+  height: 12px;
+}
+
+.listen-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.listen-btn:hover {
+  background: var(--accent-hover);
+  transform: scale(1.05);
+}
+
+/* === МОБИЛЬНЫЕ СТИЛИ: ПЛЕЕР СВЕРНУТ/РАЗВЕРНУТ === */
+
 @media (max-width: 768px) {
-    h1 {
-        font-size: 2.4rem;
-    }
-    .card {
-        padding: 20px;
-    }
-    .card h2 {
-        font-size: 1.8rem;
-    }
-    .card h2::before {
-        height: 30px;
-    }
-    .section-title {
-        font-size: 1.6rem;
-    }
-    .section-title::before {
-        height: 25px;
-    }
-    .code-block {
-        padding: 15px;
-        font-size: 0.8rem;
-    }
-    .code-block pre {
-        font-size: 0.8rem;
-    }
-    .quote {
-        font-size: 1.0rem;
-        padding: 18px;
-    }
-    .audio-container {
-        padding: 18px;
-    }
-    .resource-card {
-        padding: 20px;
-    }
-    .resource-card h3 {
-        font-size: 1.2rem;
-    }
-    .audio-player {
-        height: 40px;
-        padding: 0 8px;
-    }
-    .audio-play-btn {
-        width: 24px;
-        height: 24px;
-    }
-    .audio-play-btn svg {
-        width: 12px;
-        height: 12px;
-    }
-    .audio-progress-container {
-        height: 3px;
-        margin: 0 5px;
-    }
-    .audio-time {
-        font-size: 0.6rem;
-        min-width: 30px;
-    }
-    .image-container {
-        gap: 15px;
-    }
-    body {
-        padding: 12px;
-    }
-    .container {
-        padding: 0 12px;
-    }
-    header {
-        padding: 25px 10px;
-    }
-    .card p {
-        font-size: 1.0rem;
-    }
-    .resource-card a {
-        font-size: 0.95rem;
-    }
+  body {
+    padding-top: calc(var(--player-height-collapsed) + 20px); /* Оставляем место под плеер сверху */
+    padding: calc(var(--player-height-collapsed) + 20px) 15px 20px 15px; /* Учитываем высоту плеера */
+  }
+
+  .sticky-audio-player {
+    top: 0; /* Прижимаем к верху */
+    right: 0;
+    left: 0;
+    width: auto; /* Занимает всю ширину */
+    border-radius: 0; /* Убираем скругления по краям */
+    padding: 8px 12px; /* Уменьшаем отступы */
+    height: var(--player-height-collapsed); /* Устанавливаем высоту свернутого состояния */
+    overflow: hidden; /* Скрываем контент за пределами высоты */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* Упрощаем тень */
+    transition: height var(--transition); /* Анимируем изменение высоты */
+  }
+
+  /* Состояние: СВЕРНУТ */
+  .sticky-audio-player.collapsed {
+    height: var(--player-height-collapsed);
+  }
+
+  /* Состояние: РАЗВЕРНУТ */
+  .sticky-audio-player.expanded {
+    height: var(--player-height-expanded); /* Увеличиваем высоту */
+  }
+
+  /* Элементы, которые должны скрываться в свернутом состоянии */
+  .sticky-audio-player.collapsed .player-controls,
+  .sticky-audio-player.collapsed .audio-progress-container,
+  .sticky-audio-player.collapsed .time-container,
+  .sticky-audio-player.collapsed .track-list {
+    display: none;
+  }
+
+  /* Элементы, которые видны в свернутом состоянии */
+  .sticky-audio-player .current-track-info,
+  .sticky-audio-player .audio-btn {
+    display: flex;
+  }
+
+  .sticky-audio-player .current-track-info {
+    flex-grow: 1;
+    text-align: left;
+    margin: 0 10px; /* Добавляем боковой отступ */
+    font-size: 0.8rem; /* Чуть больше для читаемости */
+  }
+
+  .sticky-audio-player .player-controls {
+    justify-content: space-around; /* Распределяем кнопки равномерно */
+    gap: 15px; /* Увеличиваем расстояние между ними */
+  }
+
+  .sticky-audio-player .audio-btn {
+    width: 35px; /* Чуть больше для удобства на таче */
+    height: 35px; /* Чуть больше для удобства на таче */
+  }
+
+  .sticky-audio-player .audio-btn svg {
+    width: 16px; /* Чуть больше */
+    height: 16px; /* Чуть больше */
+  }
+
+  /* Адаптация остального сайта */
+  .container {
+    padding: 0 15px;
+  }
+  h1 {
+    font-size: 2.0rem;
+  }
+  .card {
+    padding: 20px;
+  }
+  .card h2 {
+    font-size: 1.6rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .code-block {
+    padding: 12px;
+    font-size: 0.8rem;
+  }
+  .code-block pre {
+    font-size: 0.8rem;
+  }
+  .resource-card h3 {
+    font-size: 1.15rem;
+  }
+  .resource-card a {
+    font-size: 0.9rem;
+  }
+  .quote {
+    font-size: 1.0rem;
+    padding: 18px;
+  }
+  footer {
+    padding: 20px;
+    font-size: 0.8rem;
+  }
+  .listen-btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Промежуточные размеры */
+@media (max-width: 600px) {
+  body {
+    padding: calc(var(--player-height-collapsed) + 15px) 12px 15px 12px;
+  }
+  .sticky-audio-player {
+    padding: 6px 10px;
+  }
+  .sticky-audio-player .current-track-info {
+    font-size: 0.75rem;
+    margin: 0 8px;
+  }
+  .sticky-audio-player .audio-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .sticky-audio-player .audio-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .sticky-audio-player.expanded {
+    height: 180px; /* Примерная высота */
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  .card h2 {
+    font-size: 1.5rem;
+  }
+  .card p {
+    font-size: 0.9rem;
+  }
+  .resource-card h3 {
+    font-size: 1.1rem;
+  }
+  .resource-card a {
+    font-size: 0.85rem;
+  }
+  .listen-btn {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-    .card {
-        padding: 10px;
-    }
-    .card h2 {
-        font-size: 1.5rem;
-    }
-    .card h2::before {
-        height: 25px;
-    }
-    .section-title {
-        font-size: 1.5rem;
-    }
-    .section-title::before {
-        height: 25px;
-    }
-    .code-block {
-        padding: 12px;
-        font-size: 0.7rem;
-    }
-    .code-block pre {
-        font-size: 0.7rem;
-    }
-    .quote {
-        font-size: 1.0rem;
-        padding: 15px;
-    }
-    .audio-container {
-        padding: 15px;
-    }
-    .resource-card {
-        padding: 15px;
-    }
-    .resource-card h3 {
-        font-size: 1.1rem;
-    }
-    .audio-player {
-        height: 35px;
-        padding: 0 5px;
-    }
-    .audio-play-btn {
-        width: 20px;
-        height: 20px;
-    }
-    .audio-play-btn svg {
-        width: 10px;
-        height: 10px;
-    }
-    .audio-progress-container {
-        height: 2px;
-        margin: 0 3px;
-    }
-    .audio-time {
-        font-size: 0.5rem;
-        min-width: 25px;
-    }
-    .image-container {
-        gap: 10px;
-    }
-    body {
-        padding: 10px;
-    }
-    .container {
-        padding: 0 10px;
-    }
-    header {
-        padding: 20px 10px;
-    }
-    .card p {
-        font-size: 0.95rem;
-    }
-    .resource-card a {
-        font-size: 0.9rem;
-    }
-    .resource-card p {
-        font-size: 0.9rem;
-    }
+  body {
+    padding: calc(var(--player-height-collapsed) + 12px) 10px 12px 10px;
+  }
+  .sticky-audio-player {
+    padding: 5px 8px;
+    height: 46px; /* Чуть уменьшаем высоту на самых маленьких */
+  }
+  .sticky-audio-player.expanded {
+    height: 160px; /* Примерная высота */
+  }
+  .sticky-audio-player .current-track-info {
+    font-size: 0.7rem;
+    margin: 0 6px;
+  }
+  .sticky-audio-player .audio-btn {
+    width: 30px;
+    height: 30px;
+  }
+  .sticky-audio-player .audio-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
+  .card h2 {
+    font-size: 1.4rem;
+  }
+  .card p {
+    font-size: 0.85rem;
+  }
+  .resource-card h3 {
+    font-size: 1.05rem;
+  }
+  .resource-card a {
+    font-size: 0.8rem;
+  }
+  .listen-btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    padding: calc(var(--player-height-collapsed) + 10px) 8px 10px 8px;
+  }
+  .sticky-audio-player {
+    height: 44px; /* Еще меньше */
+  }
+  .sticky-audio-player.expanded {
+    height: 150px; /* Примерная высота */
+  }
+  .sticky-audio-player .current-track-info {
+    font-size: 0.65rem;
+    margin: 0 5px;
+  }
+  .sticky-audio-player .audio-btn {
+    width: 28px;
+    height: 28px;
+  }
+  .sticky-audio-player .audio-btn svg {
+    width: 10px;
+    height: 10px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .card h2 {
+    font-size: 1.3rem;
+  }
+  .card p {
+    font-size: 0.8rem;
+  }
+  .resource-card h3 {
+    font-size: 1rem;
+  }
+  .resource-card a {
+    font-size: 0.75rem;
+  }
+  .listen-btn {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }

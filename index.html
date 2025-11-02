@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- -->
     <title>Как компьютеры "слышат" музыку: от Пифагора до нейросетей</title>
 </head>
 <body>
@@ -334,10 +338,9 @@ sound.export("fibonacci_melody.mp3", format="mp3")</code></pre>
             </div>
             <div class="audio-container">
                 <h4>Прослушайте мелодию по Фибоначчи:</h4>
-                <audio controls class="audio-player">
-                    <source src="fibonacci_melody.mp3" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио.
-                </audio>
+                <button class="listen-btn" onclick="playTrackById('fibonacci')">
+                    ▶️ Слушать
+                </button>
             </div>
             <p>Получается мелодия, которая звучит почти как классическая! Это потому, что числа Фибоначчи создают естественную гармонию — такую же, как в природе.</p>
             
@@ -481,10 +484,9 @@ except Exception as e:
             </div>
             <div class="audio-container">
                 <h4>Прослушайте композицию в стиле The Beatles:</h4>
-                <audio controls class="audio-player">
-                    <source src="improved_beatles_style.mp3" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио.
-                </audio>
+                <button class="listen-btn" onclick="playTrackById('beatles')">
+                    ▶️ Слушать
+                </button>
             </div>
             
             <p><strong>Что делает этот код?</strong></p>
@@ -664,5 +666,219 @@ end</code></pre>
             <p>© 2025 Научно-популярный доклад по теме "Как компьютеры слышат музыку"</p>
         </footer>
     </div>
+
+    <!-- Фиксированный аудиоплеер в правом нижнем углу -->
+    <!-- Фиксированный аудиоплеер в правом нижнем углу -->
+    <!-- Фиксированный аудиоплеер в правом нижнем углу -->
+<div class="sticky-audio-player">
+  <div class="current-track-info" id="currentTrackTitle">Загрузка...</div>
+  <div class="player-controls">
+    <button class="audio-btn" id="prevBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+      </svg>
+    </button>
+    <button class="audio-btn" id="playBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </button>
+    <button class="audio-btn" id="nextBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="audio-progress-container" id="progressContainer">
+    <div class="audio-progress-bar" id="progressBar"></div>
+  </div>
+  <div class="time-container">
+    <span id="currentTime">0:00</span>
+    <span id="duration">0:00</span>
+  </div>
+  <div class="track-list" id="trackList">
+    <!-- Треки будут добавлены здесь динамически -->
+  </div>
+</div>
+
+<script>
+  // Список всех треков на сайте
+  const tracks = [
+    {
+      id: 'fibonacci',
+      title: 'Мелодия по Фибоначчи',
+      src: 'fibonacci_melody.mp3',
+      duration: 0
+    },
+    {
+      id: 'beatles',
+      title: 'Композиция в стиле The Beatles',
+      src: 'improved_beatles_style.mp3',
+      duration: 0
+    }
+  ];
+
+  let currentTrackIndex = 0;
+  const audio = new Audio();
+  const playBtn = document.getElementById('playBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressBar = document.getElementById('progressBar');
+  const progressContainer = document.getElementById('progressContainer');
+  const currentTime = document.getElementById('currentTime');
+  const duration = document.getElementById('duration');
+  const trackList = document.getElementById('trackList');
+  const currentTrackTitle = document.getElementById('currentTrackTitle');
+  const stickyPlayer = document.querySelector('.sticky-audio-player'); // Новый элемент
+
+  // Создаем список треков
+  function renderTrackList() {
+    trackList.innerHTML = '';
+    tracks.forEach((track, index) => {
+      const item = document.createElement('div');
+      item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+      item.innerHTML = `
+        <span class="track-title">${track.title}</span>
+        <button class="play-track-btn" data-index="${index}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
+      `;
+      trackList.appendChild(item);
+
+      item.querySelector('.play-track-btn').addEventListener('click', (e) => {
+        e.stopPropagation(); // Предотвращаем раскрытие плеера при клике на трек
+        loadTrack(index);
+        playAudio();
+      });
+    });
+  }
+
+  // Загрузка трека
+  function loadTrack(index) {
+    currentTrackIndex = index;
+    const track = tracks[index];
+    audio.src = track.src;
+    audio.load();
+    currentTrackTitle.textContent = track.title;
+    renderTrackList(); // Обновляем выделение
+  }
+
+  // Воспроизведение/пауза
+  function playAudio() {
+    if (audio.paused || audio.ended) {
+      audio.play().catch(e => console.log("Ошибка воспроизведения:", e));
+      playBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    } else {
+      audio.pause();
+      playBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    }
+  }
+
+  // Обновление прогресса
+  function updateProgress() {
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = `${percent}%`;
+      currentTime.textContent = formatTime(audio.currentTime);
+      duration.textContent = formatTime(audio.duration);
+    }
+  }
+
+  // Форматирование времени
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  // При загрузке метаданных
+  audio.addEventListener('loadedmetadata', () => {
+    tracks[currentTrackIndex].duration = audio.duration;
+  });
+
+  // Обновление при изменении времени
+  audio.addEventListener('timeupdate', updateProgress);
+
+  // Переключение треков по окончании
+  audio.addEventListener('ended', () => {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    loadTrack(currentTrackIndex);
+    playAudio();
+  });
+
+  // Кнопка Play/Pause
+  playBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем раскрытие плеера при клике на кнопку
+      playAudio();
+  });
+
+  // Кнопка Next
+  nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(currentTrackIndex);
+      playAudio();
+  });
+
+  // Кнопка Prev
+  prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrackIndex);
+      playAudio();
+  });
+
+  // Управление ползунком
+  progressContainer.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      const width = progressContainer.clientWidth;
+      const clickX = e.offsetX;
+      const percent = clickX / width;
+      audio.currentTime = percent * audio.duration;
+  });
+
+  // --- НОВАЯ ЛОГИКА: СВЕРТЫВАНИЕ/РАЗВЕРТЫВАНИЕ ПЛЕЕРА ---
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  function togglePlayerExpand() {
+    if (isMobile) {
+      if (stickyPlayer.classList.contains('collapsed')) {
+        stickyPlayer.classList.remove('collapsed');
+        stickyPlayer.classList.add('expanded');
+      } else {
+        stickyPlayer.classList.remove('expanded');
+        stickyPlayer.classList.add('collapsed');
+      }
+    }
+  }
+
+  // Добавляем обработчик клика на заголовок трека
+  currentTrackTitle.addEventListener('click', togglePlayerExpand);
+
+  // Инициализация
+  renderTrackList();
+  loadTrack(currentTrackIndex);
+  currentTrackTitle.textContent = tracks[currentTrackIndex].title;
+
+  // Устанавливаем начальное состояние плеера для мобильных
+  if (isMobile) {
+    stickyPlayer.classList.add('collapsed');
+  }
+
+  // Функция для вызова из карточек
+  window.playTrackById = function(trackId) {
+    const index = tracks.findIndex(t => t.id === trackId);
+    if (index !== -1) {
+      loadTrack(index);
+      playAudio();
+      // На мобильных устройствах автоматически раскрываем плеер при выборе трека из карточки
+      if (isMobile && stickyPlayer.classList.contains('collapsed')) {
+        togglePlayerExpand();
+      }
+    }
+  };
+</script>
 </body>
 </html>
