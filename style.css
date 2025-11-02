@@ -11,6 +11,8 @@
   --transition: all 0.3s ease;
   --border-radius: 24px;
   --card-padding: 30px;
+  --player-width-collapsed: 60px; /* Ширина свернутого плеера */
+  --player-width-expanded: 320px; /* Ширина развернутого плеера */
   --player-height-collapsed: 50px; /* Высота свернутого плеера */
   --player-height-expanded: 200px; /* Примерная высота развернутого плеера */
 }
@@ -32,7 +34,7 @@ body {
   position: relative;
   overflow-x: hidden;
   /* Убираем нижний отступ, так как плеер теперь сверху */
-  padding-bottom: 20px; /* Оставляем минимальный отступ */
+  padding-bottom: 20px;
 }
 
 .container {
@@ -325,32 +327,59 @@ footer {
   box-shadow: var(--shadow-outset);
 }
 
-/* === УЛУЧШЕННЫЙ МОБИЛЬНЫЙ ПЛЕЕР: СВЕРНУТЫЙ / РАЗВЕРНУТЫЙ === */
+/* === УЛУЧШЕННЫЙ ПЛЕЕР: СВЕРНУТЫЙ / РАЗВЕРНУТЫЙ (для десктопа и мобильных) === */
 
-/* Десктоп: обычный плеер */
 .sticky-audio-player {
   position: fixed;
-  top: 20px; /* Теперь сверху */
-  right: 20px;
+  top: 20px; /* Сверху */
+  right: 20px; /* Справа */
   z-index: 1000;
   background: var(--bg-secondary);
   border-radius: 20px;
-  padding: 12px;
+  padding: 8px; /* Уменьшаем отступы */
   box-shadow: var(--shadow-outset);
-  width: 320px;
+  width: var(--player-width-expanded); /* Стартовая ширина */
   max-width: 90vw;
-  transition: var(--transition);
+  transition: width var(--transition), height var(--transition); /* Анимируем изменение ширины и высоты */
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* Уменьшаем зазор */
+  overflow: hidden; /* Скрываем контент за пределами высоты/ширины */
+  align-items: stretch; /* Выравниваем элементы по ширине */
 }
 
 .sticky-audio-player:hover {
   box-shadow: var(--shadow-inset);
 }
 
+/* Состояние: СВЕРНУТ (для десктопа и мобильных) */
+.sticky-audio-player.collapsed {
+  width: var(--player-width-collapsed);
+  height: var(--player-height-collapsed);
+}
+
+/* Состояние: РАЗВЕРНУТ (для десктопа и мобильных) */
+.sticky-audio-player.expanded {
+  width: var(--player-width-expanded);
+  height: var(--player-height-expanded);
+}
+
+/* Элементы, которые должны скрываться в свернутом состоянии */
+.sticky-audio-player.collapsed .player-controls,
+.sticky-audio-player.collapsed .audio-progress-container,
+.sticky-audio-player.collapsed .time-container,
+.sticky-audio-player.collapsed .track-list {
+  display: none;
+}
+
+/* Элементы, которые видны в свернутом состоянии */
+.sticky-audio-player .current-track-info,
+.sticky-audio-player .audio-btn {
+  display: flex;
+}
+
 .current-track-info {
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Уменьшаем размер шрифта */
   color: var(--highlight);
   text-align: center;
   margin-bottom: 2px;
@@ -358,13 +387,18 @@ footer {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer; /* Показывает, что элемент кликабелен */
+  flex-grow: 1; /* Растягиваем на доступное место */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px; /* Небольшие внутренние отступы */
 }
 
 .player-controls {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 8px; /* Уменьшаем зазор */
 }
 
 .audio-btn {
@@ -441,21 +475,20 @@ footer {
 .track-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  max-height: 100px;
+  gap: 4px; /* Уменьшаем зазор */
+  max-height: 80px; /* Уменьшаем высоту списка */
   overflow-y: auto;
-  padding: 6px 0;
-  margin-top: 8px;
+  padding: 4px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .track-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 6px;
+  gap: 4px; /* Уменьшаем зазор */
+  padding: 3px 4px; /* Уменьшаем отступы */
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
+  border-radius: 6px; /* Уменьшаем скругления */
   transition: var(--transition);
   cursor: pointer;
 }
@@ -476,7 +509,7 @@ footer {
 
 .track-title {
   flex-grow: 1;
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* Уменьшаем размер шрифта */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -486,7 +519,7 @@ footer {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 2px;
+  padding: 1px;
   opacity: 0.7;
   transition: opacity 0.2s ease;
 }
@@ -497,8 +530,8 @@ footer {
 
 .play-track-btn svg {
   fill: var(--text-secondary);
-  width: 12px;
-  height: 12px;
+  width: 10px; /* Уменьшаем размер иконки */
+  height: 10px; /* Уменьшаем размер иконки */
 }
 
 .listen-btn {
@@ -522,11 +555,12 @@ footer {
 }
 
 /* === МОБИЛЬНЫЕ СТИЛИ: ПЛЕЕР СВЕРНУТ/РАЗВЕРНУТ === */
+/* Теперь мы используем ту же логику, но с другими размерами */
 
 @media (max-width: 768px) {
   body {
-    padding-top: calc(var(--player-height-collapsed) + 20px); /* Оставляем место под плеер сверху */
-    padding: calc(var(--player-height-collapsed) + 20px) 15px 20px 15px; /* Учитываем высоту плеера */
+    padding-top: calc(var(--player-height-collapsed) + 20px);
+    padding: calc(var(--player-height-collapsed) + 20px) 15px 20px 15px;
   }
 
   .sticky-audio-player {
@@ -537,22 +571,17 @@ footer {
     border-radius: 0; /* Убираем скругления по краям */
     padding: 8px 12px; /* Уменьшаем отступы */
     height: var(--player-height-collapsed); /* Устанавливаем высоту свернутого состояния */
-    overflow: hidden; /* Скрываем контент за пределами высоты */
     box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* Упрощаем тень */
-    transition: height var(--transition); /* Анимируем изменение высоты */
   }
 
-  /* Состояние: СВЕРНУТ */
   .sticky-audio-player.collapsed {
     height: var(--player-height-collapsed);
   }
 
-  /* Состояние: РАЗВЕРНУТ */
   .sticky-audio-player.expanded {
     height: var(--player-height-expanded); /* Увеличиваем высоту */
   }
 
-  /* Элементы, которые должны скрываться в свернутом состоянии */
   .sticky-audio-player.collapsed .player-controls,
   .sticky-audio-player.collapsed .audio-progress-container,
   .sticky-audio-player.collapsed .time-container,
@@ -560,35 +589,28 @@ footer {
     display: none;
   }
 
-  /* Элементы, которые видны в свернутом состоянии */
-  .sticky-audio-player .current-track-info,
-  .sticky-audio-player .audio-btn {
-    display: flex;
-  }
-
   .sticky-audio-player .current-track-info {
     flex-grow: 1;
     text-align: left;
-    margin: 0 10px; /* Добавляем боковой отступ */
-    font-size: 0.8rem; /* Чуть больше для читаемости */
+    margin: 0 10px;
+    font-size: 0.8rem;
   }
 
   .sticky-audio-player .player-controls {
-    justify-content: space-around; /* Распределяем кнопки равномерно */
-    gap: 15px; /* Увеличиваем расстояние между ними */
+    justify-content: space-around;
+    gap: 15px;
   }
 
   .sticky-audio-player .audio-btn {
-    width: 35px; /* Чуть больше для удобства на таче */
-    height: 35px; /* Чуть больше для удобства на таче */
+    width: 35px;
+    height: 35px;
   }
 
   .sticky-audio-player .audio-btn svg {
-    width: 16px; /* Чуть больше */
-    height: 16px; /* Чуть больше */
+    width: 16px;
+    height: 16px;
   }
 
-  /* Адаптация остального сайта */
   .container {
     padding: 0 15px;
   }
@@ -634,7 +656,6 @@ footer {
   }
 }
 
-/* Промежуточные размеры */
 @media (max-width: 600px) {
   body {
     padding: calc(var(--player-height-collapsed) + 15px) 12px 15px 12px;
@@ -655,7 +676,7 @@ footer {
     height: 14px;
   }
   .sticky-audio-player.expanded {
-    height: 180px; /* Примерная высота */
+    height: 180px;
   }
   h1 {
     font-size: 1.8rem;
@@ -684,10 +705,10 @@ footer {
   }
   .sticky-audio-player {
     padding: 5px 8px;
-    height: 46px; /* Чуть уменьшаем высоту на самых маленьких */
+    height: 46px;
   }
   .sticky-audio-player.expanded {
-    height: 160px; /* Примерная высота */
+    height: 160px;
   }
   .sticky-audio-player .current-track-info {
     font-size: 0.7rem;
@@ -727,10 +748,10 @@ footer {
     padding: calc(var(--player-height-collapsed) + 10px) 8px 10px 8px;
   }
   .sticky-audio-player {
-    height: 44px; /* Еще меньше */
+    height: 44px;
   }
   .sticky-audio-player.expanded {
-    height: 150px; /* Примерная высота */
+    height: 150px;
   }
   .sticky-audio-player .current-track-info {
     font-size: 0.65rem;
@@ -754,7 +775,7 @@ footer {
     font-size: 0.8rem;
   }
   .resource-card h3 {
-    font-size: 1rem;
+    font-size: 1.0rem;
   }
   .resource-card a {
     font-size: 0.75rem;

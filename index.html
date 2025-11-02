@@ -729,7 +729,7 @@ end</code></pre>
   const duration = document.getElementById('duration');
   const trackList = document.getElementById('trackList');
   const currentTrackTitle = document.getElementById('currentTrackTitle');
-  const stickyPlayer = document.querySelector('.sticky-audio-player'); // Новый элемент
+  const stickyPlayer = document.querySelector('.sticky-audio-player');
 
   // Создаем список треков
   function renderTrackList() {
@@ -748,9 +748,11 @@ end</code></pre>
       trackList.appendChild(item);
 
       item.querySelector('.play-track-btn').addEventListener('click', (e) => {
-        e.stopPropagation(); // Предотвращаем раскрытие плеера при клике на трек
+        e.stopPropagation();
         loadTrack(index);
         playAudio();
+        // Автоматически развернем плеер при выборе трека из списка
+        togglePlayerExpand();
       });
     });
   }
@@ -762,7 +764,7 @@ end</code></pre>
     audio.src = track.src;
     audio.load();
     currentTrackTitle.textContent = track.title;
-    renderTrackList(); // Обновляем выделение
+    renderTrackList();
   }
 
   // Воспроизведение/пауза
@@ -810,13 +812,13 @@ end</code></pre>
 
   // Кнопка Play/Pause
   playBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Предотвращаем раскрытие плеера при клике на кнопку
+      e.stopPropagation();
       playAudio();
   });
 
   // Кнопка Next
   nextBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      e.stopPropagation();
       currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
       loadTrack(currentTrackIndex);
       playAudio();
@@ -824,7 +826,7 @@ end</code></pre>
 
   // Кнопка Prev
   prevBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      e.stopPropagation();
       currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
       loadTrack(currentTrackIndex);
       playAudio();
@@ -832,40 +834,73 @@ end</code></pre>
 
   // Управление ползунком
   progressContainer.addEventListener('click', (e) => {
-      e.stopPropagation(); // Предотвращаем раскрытие плеера
+      e.stopPropagation();
       const width = progressContainer.clientWidth;
       const clickX = e.offsetX;
       const percent = clickX / width;
       audio.currentTime = percent * audio.duration;
   });
 
-  // --- НОВАЯ ЛОГИКА: СВЕРТЫВАНИЕ/РАЗВЕРТЫВАНИЕ ПЛЕЕРА ---
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  // --- НОВАЯ ЛОГИКА: СВЕРТЫВАНИЕ/РАЗВЕРТЫВАНИЕ ПЛЕЕРА (для десктопа и мобильных) ---
+  let isPlayerExpanded = false; // Состояние плеера
 
   function togglePlayerExpand() {
-    if (isMobile) {
-      if (stickyPlayer.classList.contains('collapsed')) {
-        stickyPlayer.classList.remove('collapsed');
-        stickyPlayer.classList.add('expanded');
-      } else {
-        stickyPlayer.classList.remove('expanded');
-        stickyPlayer.classList.add('collapsed');
-      }
+    if (isPlayerExpanded) {
+      stickyPlayer.classList.remove('expanded');
+      stickyPlayer.classList.add('collapsed');
+    } else {
+      stickyPlayer.classList.remove('collapsed');
+      stickyPlayer.classList.add('expanded');
     }
+    isPlayerExpanded = !isPlayerExpanded; // Инвертируем состояние
   }
 
-  // Добавляем обработчик клика на заголовок трека
+  // Добавляем обработчик клика на заголовок трека (и на сам плеер, если нужно)
   currentTrackTitle.addEventListener('click', togglePlayerExpand);
+  // Если хотите, чтобы плеер раскрывался/сворачивался при клике на любое его место:
+  // stickyPlayer.addEventListener('click', (e) => {
+  //   // Исключаем клики на кнопки и ползунок
+  //   if (!e.target.closest('.audio-btn') && !e.target.closest('.audio-progress-container')) {
+  //     togglePlayerExpand();
+  //   }
+  // });
+
+  // --- ДОПОЛНИТЕЛЬНО: Автоматическое раскрытие при наведении (только на десктопе) ---
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) {
+    stickyPlayer.addEventListener('mouseenter', () => {
+        // Если плеер свернут, раскрываем его при наведении
+        if (!isPlayerExpanded) {
+            stickyPlayer.classList.remove('collapsed');
+            stickyPlayer.classList.add('expanded');
+        }
+    });
+
+    stickyPlayer.addEventListener('mouseleave', () => {
+        // Если плеер был раскрыт через наведение (а не клик), можно его снова свернуть
+        // или оставить как есть, если пользователь кликнул. Реализуем через флаг:
+        // Добавим флаг, чтобы не сворачивать, если пользователь кликнул
+        if (!stickyPlayer.classList.contains('was-clicked-expanded')) {
+            stickyPlayer.classList.remove('expanded');
+            stickyPlayer.classList.add('collapsed');
+            isPlayerExpanded = false; // Сбрасываем состояние, если оно не кликнутое
+        }
+    });
+
+    // Отмечаем, что плеер был раскрыт кликом, чтобы не свернуть при mouseleave
+    currentTrackTitle.addEventListener('click', () => {
+        stickyPlayer.classList.add('was-clicked-expanded');
+    });
+  }
+
 
   // Инициализация
   renderTrackList();
   loadTrack(currentTrackIndex);
   currentTrackTitle.textContent = tracks[currentTrackIndex].title;
 
-  // Устанавливаем начальное состояние плеера для мобильных
-  if (isMobile) {
-    stickyPlayer.classList.add('collapsed');
-  }
+  // Устанавливаем начальное состояние плеера (свёрнут)
+  stickyPlayer.classList.add('collapsed');
 
   // Функция для вызова из карточек
   window.playTrackById = function(trackId) {
@@ -873,10 +908,8 @@ end</code></pre>
     if (index !== -1) {
       loadTrack(index);
       playAudio();
-      // На мобильных устройствах автоматически раскрываем плеер при выборе трека из карточки
-      if (isMobile && stickyPlayer.classList.contains('collapsed')) {
-        togglePlayerExpand();
-      }
+      // Автоматически раскрываем плеер при выборе трека из карточки
+      togglePlayerExpand();
     }
   };
 </script>
