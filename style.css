@@ -10,11 +10,18 @@
   --shadow-outset: 6px 6px 12px #0f1118, -6px -6px 12px #151726;
   --transition: all 0.3s ease;
   --border-radius: 24px;
+  --border-radius-mobile: 16px;
   --card-padding: 30px;
+  --card-padding-mobile: 20px;
+  --header-padding: 40px 20px;
+  --header-padding-mobile: 30px 15px;
   --player-width-collapsed: 60px;
   --player-width-expanded: 320px;
   --player-height-collapsed: 50px;
   --player-height-expanded: 200px;
+  --font-size-h1: clamp(2rem, 5vw, 3.2rem);
+  --font-size-h2: clamp(1.6rem, 4vw, 2.2rem);
+  --font-size-body: clamp(1rem, 2.5vw, 1.15rem);
 }
 
 * {
@@ -45,7 +52,7 @@ body {
 /* Header Styles */
 header {
   text-align: center;
-  padding: 40px 20px;
+  padding: var(--header-padding);
   margin-bottom: 40px;
   background: var(--bg-secondary);
   border-radius: var(--border-radius);
@@ -60,7 +67,7 @@ header:hover {
 }
 
 h1 {
-  font-size: 3.2rem;
+  font-size: var(--font-size-h1);
   margin-bottom: 15px;
   background: linear-gradient(90deg, var(--accent), var(--highlight));
   -webkit-background-clip: text;
@@ -71,7 +78,7 @@ h1 {
 }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   opacity: 0.85;
   margin-bottom: 30px;
   color: var(--text-secondary);
@@ -96,7 +103,7 @@ h1 {
 }
 
 .card h2 {
-  font-size: 2.2rem;
+  font-size: var(--font-size-h2);
   margin-bottom: 25px;
   color: var(--accent);
   display: flex;
@@ -121,7 +128,7 @@ h1 {
 
 .card p {
   margin-bottom: 20px;
-  font-size: 1.15rem;
+  font-size: var(--font-size-body);
   line-height: 1.8;
   color: var(--text-secondary);
 }
@@ -143,7 +150,7 @@ li {
 }
 
 .home-intro p {
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
   margin-bottom: 20px;
   color: var(--text-secondary);
 }
@@ -174,7 +181,7 @@ li {
 }
 
 .link-card h3 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 20px;
   color: var(--accent);
   font-weight: 600;
@@ -182,7 +189,7 @@ li {
 
 .link-card p {
   margin-bottom: 25px;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
   color: var(--text-secondary);
 }
 
@@ -259,7 +266,7 @@ li {
   margin: 25px 0;
   overflow-x: auto;
   font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   box-shadow: var(--shadow-outset);
   transition: var(--transition);
 }
@@ -343,7 +350,7 @@ li {
 /* Quote */
 .quote {
   font-style: italic;
-  font-size: 1.2rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.2rem);
   padding: 25px;
   margin: 25px 0;
   background: var(--bg-secondary);
@@ -397,14 +404,14 @@ li {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
   font-weight: 600;
   justify-content: center;
 }
 
 .resource-card p {
   margin-bottom: 15px;
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -484,7 +491,7 @@ li {
 .track-title-text {
   flex-grow: 1;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   color: var(--highlight);
   white-space: nowrap;
   overflow: hidden;
@@ -643,7 +650,7 @@ li {
 
 .track-title {
   flex-grow: 1;
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 2vw, 0.85rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -714,7 +721,7 @@ li {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
 .listen-btn:hover {
@@ -738,41 +745,54 @@ footer {
 @media (max-width: 768px) {
   body {
     padding-top: calc(var(--player-height-collapsed) + 20px);
-    padding: calc(var(--player-height-collapsed) + 20px) 15px 20px 15px;
+    padding: calc(var(--player-height-collapsed) + 20px) 10px 20px 10px;
   }
 
   .container {
-    padding: 0 15px;
+    padding: 0 10px;
   }
 
-  h1 {
-    font-size: 2.5rem;
+  header {
+    padding: var(--header-padding-mobile);
+    margin-bottom: 30px;
+  }
+
+  .card {
+    padding: var(--card-padding-mobile);
+    margin-bottom: 25px;
+    border-radius: var(--border-radius-mobile);
   }
 
   .card h2 {
-    font-size: 1.8rem;
+    padding-left: 15px;
+    gap: 10px;
+  }
+
+  .card h2::before {
+    height: 28px;
+    width: 4px;
   }
 
   .home-links {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .link-card {
-    padding: 25px;
-  }
-
-  .link-card h3 {
-    font-size: 1.7rem;
+    padding: var(--card-padding-mobile);
   }
 
   .nav-container {
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+    padding: 10px 0;
   }
 
   .nav-btn {
     padding: 10px 20px;
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+    width: 100%;
+    justify-content: center;
   }
 
   .sticky-audio-player {
@@ -781,97 +801,252 @@ footer {
     left: 0;
     width: 100%;
     border-radius: 0;
-    padding: 10px 15px;
+    padding: 8px 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    gap: 8px;
   }
 
   .sticky-audio-player.collapsed {
     height: var(--player-height-collapsed);
+    padding: 6px 10px;
   }
 
   .sticky-audio-player.expanded {
     height: auto;
-    max-height: 80vh;
+    max-height: 70vh;
+    padding: 12px 10px;
   }
 
   .current-track-info {
-    font-size: 0.9rem;
-    margin: 0 12px;
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    margin: 0 8px;
+  }
+
+  .player-controls {
+    gap: 8px;
+    padding: 6px 0;
   }
 
   .audio-btn {
-    width: 40px;
-    height: 40px;
+    width: clamp(32px, 8vw, 40px);
+    height: clamp(32px, 8vw, 40px);
   }
 
   .audio-btn svg {
-    width: 18px;
-    height: 18px;
+    width: clamp(14px, 4vw, 18px);
+    height: clamp(14px, 4vw, 18px);
   }
 
   .track-list {
-    max-height: 200px;
+    max-height: clamp(120px, 30vh, 200px);
+    gap: 4px;
+    padding: 6px 0 0 0;
   }
 
-  .sticky-audio-player .track-title {
-    font-size: 0.9rem;
+  .track-item {
+    padding: 5px 8px;
+    gap: 8px;
+  }
+
+  .track-title {
+    font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  }
+
+  .play-track-btn {
+    width: 20px;
+    height: 20px;
+  }
+
+  .play-track-btn svg {
+    width: 8px;
+    height: 8px;
   }
 
   .listen-btn {
     padding: 6px 15px;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
   }
 
   .resources {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .resource-card {
+    padding: var(--card-padding-mobile);
+  }
+
+  .quote {
+    padding: 20px;
+  }
+
+  .code-block {
+    padding: 20px;
+  }
+
+  footer {
+    padding: 25px 20px;
+    margin-top: 30px;
   }
 }
 
 @media (max-width: 480px) {
-  .audio-btn {
-    width: 36px;
-    height: 36px;
+  body {
+    padding: calc(var(--player-height-collapsed) + 15px) 8px 15px 8px;
   }
 
-  .audio-btn svg {
-    width: 16px;
-    height: 16px;
+  .container {
+    padding: 0 8px;
+  }
+
+  header {
+    padding: 25px 10px;
+    margin-bottom: 25px;
+  }
+
+  .card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .card h2 {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+    padding-left: 12px;
+    gap: 8px;
+  }
+
+  .card h2::before {
+    height: 24px;
+    width: 3px;
+  }
+
+  .image-container {
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .nav-btn {
+    padding: 8px 16px;
+  }
+
+  .sticky-audio-player.expanded {
+    max-height: 60vh;
   }
 
   .track-list {
-    max-height: 180px;
+    max-height: clamp(100px, 25vh, 180px);
   }
 
-  .current-track-info {
-    font-size: 0.8rem;
+  .audio-progress-container {
+    height: 4px;
   }
 
-  .player-icon svg {
-    width: 18px;
-    height: 18px;
+  .time-container {
+    font-size: 0.7rem;
   }
 
   .listen-btn {
     padding: 5px 12px;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+  }
+
+  .home-links {
+    gap: 15px;
+  }
+
+  .link-card {
+    padding: 20px;
+  }
+
+  .link-btn {
+    padding: 10px 20px;
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
   }
 }
 
 /* Scrollbar Styling */
 .track-list::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 .track-list::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .track-list::-webkit-scrollbar-thumb {
   background: var(--accent);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .track-list::-webkit-scrollbar-thumb:hover {
   background: var(--accent-hover);
+}
+
+/* Additional mobile optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .card:hover,
+  .link-card:hover,
+  .resource-card:hover,
+  .image-item:hover,
+  .quote:hover,
+  .code-block:hover,
+  .nav-container:hover {
+    transform: none;
+    box-shadow: var(--shadow-outset);
+  }
+
+  .audio-btn:hover,
+  .play-track-btn:hover,
+  .listen-btn:hover,
+  .link-btn:hover,
+  .nav-btn:hover {
+    transform: scale(1.02);
+  }
+}
+
+.progress-sequence {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0;
+  gap: 20px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.progress-step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.step-label {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .progress-sequence {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
