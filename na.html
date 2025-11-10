@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Аналоговый и цифровой звук: АЦП и ЦАП в музыке</title>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-container">
+            <a href="index.html" class="nav-btn prev">Вернуться на главное меню</a>
+            <a href="ai.html" class="nav-btn next">Перейти дальше</a>
+        </div>
+
+        <header>
+            <h1>🔊 Аналоговый и цифровой звук: как волны становятся нулями и единицами</h1>
+            <p class="subtitle">Продолжение: от математической гармонии к цифровой магии преобразования</p>
+        </header>
+
+        <div class="card">
+            <h2>🎤 1. Вступление: связь с волнами</h2>
+            <p>Спасибо, Павел Максимович, за отличное объяснение, как звук — это волна, и как её можно описать математически. Вы показали, что музыка — это не просто эмоции, но и синусоиды, частоты, амплитуды…</p>
+            <p>Как только мы хотим записать эту музыку в компьютер — начинается магия превращения «плавной» волны в нули и единицы. Сегодня я расскажу, как компьютерное «железо» помогает музыке жить внутри машин — через устройства, которые называются АЦП и ЦАП.</p>
+            <div class="quote">
+                Музыка — это волны в воздухе. Компьютер — это мир битов. АЦП и ЦАП — мост между ними.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📈 2. Аналоговый и цифровой звук: непрерывность vs дискретность</h2>
+            <p>Представьте: вы поёте в микрофон. Ваши голосовые связки создают колебания воздуха — это <strong>аналоговый сигнал</strong>. Он непрерывный: может принимать любые значения в любой момент времени — как гладкая кривая на графике, которую вы только что видели.</p>
+            <p>Вычислительная техника же может обрабатывать только данные, представленные в двоичной форме, поэтому для загрузки в память компьютера для последующего редактирования, хранения, или просто воспроизведения, звук должен быть оцифрован.</p>
+            <p>Это как если бы вы вместо плавного рисунка нарисовали его по точкам на миллиметровке — чем точнее сетка, тем ближе к оригиналу. Вот этим и занимается АЦП — аналого-цифровой преобразователь.</p>
+            
+            <div class="quote">
+                Аналоговый звук — бесконечная гладкость. Цифровой — точечная сетка гармонии.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>⚡ 3. АЦП: как звук попадает в компьютер</h2>
+            <p>АЦП находится внутри звуковой карты или аудиоинтерфейса. Его задача — «слушать» аналоговый сигнал (например, от микрофона или гитары) и каждую долю секунды измерять его напряжение.</p>
+            <p>Два ключевых параметра:</p>
+            <ul>
+                <li><strong>Частота дискретизации</strong> — сколько раз в секунду АЦП делает «снимок» сигнала. Например, CD-качество — 44 100 раз в секунду (44,1 кГц).</li>
+                <li><strong>Битность (глубина)</strong> — насколько точно измеряется каждый «снимок». 16 бит = 65 536 возможных уровней громкости. 24 бита — уже более 16 миллионов! Чем выше — тем мягче, детальнее звук.</li>
+            </ul>
+            <p>В итоге АЦП выдаёт поток чисел — цифровой аудиофайл. Это и есть то, с чем работает ваш компьютер.</p>
+            <div class="image-container">
+                <div class="image-item">
+                    <img src="na/1762776340.png" alt="Нотация тактов 3/4 и 4/4: вальс и поп-ритм">
+                </div>
+            </div>
+            <div class="code-block">
+                <pre><code>Пример параметров АЦП:
+Частота дискретизации: 44.1 kHz (снимки/сек)
+Битность: 16 bit (уровни амплитуды: 2^16 = 65 536)
+Итоговый битрейт: 44.1k * 16 * 2 (стерео) ≈ 1.4 Mbps</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🎛️ 4. ЦАП: как компьютер «поёт» через колонки</h2>
+            <p>А теперь — обратный путь. Когда вы нажимаете «Play» в плеере, компьютер посылает эти числа на ЦАП — цифро-аналоговый преобразователь.</p>
+            <p>ЦАП берёт цифровые значения и воссоздаёт из них аналоговое напряжение, которое подаётся на усилитель и далее — на наушники или колонки.</p>
+            <p>Без ЦАП вы бы слышали только тишину — ведь колонки не понимают «10110010», им нужно плавное изменение напряжения, как в реальной звуковой волне.</p>
+            <p>Качество ЦАП тоже важно: плохой ЦАП может «сгладить» резкие переходы или добавить шум — и музыка потеряет живость.</p>
+            
+            <div class="image-container">
+                <div class="image-item">
+                    <img src="na/1762776557.png" alt="ЦАП: цифровые точки → интерполяция в аналоговую волну">
+                </div>
+            </div>
+            
+            <div class="quote">
+                ЦАП — это "певец" компьютера: из битов рождается мелодия.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🎯 5. Практический смысл: качество звука в цифрах</h2>
+            <p>Вот почему форматы вроде MP3 «хуже» WAV или FLAC: при сжатии часть данных отбрасывается, чтобы уменьшить размер. Это как уменьшить количество точек на нашем рисунке.</p>
+            <p>А профессиональные музыканты используют 24 бита и 96 кГц, потому что:</p>
+            <ul>
+                <li>У них выше динамический диапазон (от шёпота до громкого удара),</li>
+                <li>И точнее передаётся тембр инструментов.</li>
+            </ul>
+            <p>Но! Если вы слушаете через дешёвые наушники — разницы не услышите. Здесь всё как в математике: точность должна соответствовать задаче.</p>
+            
+            <div class="code-block">
+                <pre><code>Сравнение форматов:
+WAV (несжатый): 44.1 kHz, 16 bit → ~10 MB/мин
+MP3 (сжатый): 128 kbps → ~1 MB/мин (потеря деталей)
+FLAC (lossless): 44.1 kHz, 24 bit → ~30 MB/мин (идеал)</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💡 6. Заключение: от железа к коду</h2>
+            <p>АЦП и ЦАП встроены в звуковую карту (или аудиокодек на материнской плате), внешние аудиоинтерфейсы, USB-микрофоны и гарнитуры — везде, где аналоговый звук преобразуется в цифровой и наоборот.</p>
+            <p>АЦП и ЦАП — это «переводчики» между миром волн и миром нулей-единиц. Без них не было бы Яндекс Музыки, голосовых сообщений, даже Алисы!</p>
+            <p>А теперь — самое интересное: как программисты работают с этим цифровым звуком? Как писать код, который генерирует музыку, меняет тембр или создаёт синтезатор? Об этом расскажет наш следующий спикер, Алексей Иванович, который покажет, как эти цифровые волны оживают в алгоритмах и нейросетях.</p>
+            <div class="quote">
+                "Звук в компьютере — это не конец волны, а её новая жизнь в коде."
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📚 Дополнительные ресурсы</h2>
+            <div class="resources">
+                <div class="resource-card">
+                    <h3>🔧 Audio Science Review</h3>
+                    <p>Глубокий разбор АЦП/ЦАП, тесты устройств и измерения качества звука.</p>
+                    <a href="https://www.audiosciencereview.com/" target="_blank">audiosciencereview.com</a>
+                </div>
+                <div class="resource-card">
+                    <h3>🎼 Audacity (бесплатный софт)</h3>
+                    <p>Программа для записи и редактирования: поэкспериментируйте с частотой и битностью.</p>
+                    <a href="https://www.audacityteam.org/" target="_blank">audacityteam.org</a>
+                </div>
+                <div class="resource-card">
+                    <h3>📖 Книга "Цифровой звук"</h3>
+                    <p>От основ АЦП/ЦАП до продвинутого аудио в программировании.</p>
+                    <a href="https://www.oreilly.com/library/view/digital-audio-essentials/9781449326988/" target="_blank">Подробнее о книге</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Научно-популярная лекция "Аналоговый и цифровой звук: АЦП и ЦАП"</p>
+        </footer>
+    </div>
+
+    <!-- Стилизованный аудиоплеер -->
+    <div class="sticky-audio-player collapsed">
+        <div class="current-track-info" id="currentTrackTitle">
+            <span class="track-title-text">Загрузка...</span>
+            <span class="player-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+            </span>
+        </div>
+        <div class="player-controls">
+            <button class="audio-btn" id="prevBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                </svg>
+            </button>
+            <button class="audio-btn" id="playBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            <button class="audio-btn" id="nextBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="audio-progress-container" id="progressContainer">
+            <div class="audio-progress-bar" id="progressBar"></div>
+        </div>
+        <div class="time-container">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+        </div>
+        <div class="track-list" id="trackList">
+            <!-- Треки будут добавлены динамически -->
+        </div>
+    </div>
+
+    <script>
+        // Список треков с примерами для демонстрации (плейсхолдеры; замените на реальные MP3)
+        const tracks = [
+            {
+                id: 'analog',
+                title: 'Аналоговый шум (неоцифрованный)',
+                src: 'pm/analog_noise_sample.mp3',
+                startTime: 0,
+                endTime: null,
+                duration: 0
+            },
+            {
+                id: 'low_sample',
+                title: 'Низкая дискретизация (8 kHz)',
+                src: 'pm/low_sample_rate.mp3',
+                startTime: 0,
+                endTime: 10,
+                duration: 0
+            },
+            {
+                id: 'high_sample',
+                title: 'Высокая дискретизация (96 kHz)',
+                src: 'pm/high_sample_rate.mp3',
+                startTime: 0,
+                endTime: 10,
+                duration: 0
+            },
+            {
+                id: 'mp3_sample',
+                title: 'MP3 сжатый (128 kbps)',
+                src: 'pm/mp3_compressed.mp3',
+                startTime: 0,
+                endTime: null,
+                duration: 0
+            },
+            {
+                id: 'wav_sample',
+                title: 'WAV несжатый (16 bit)',
+                src: 'pm/wav_uncompressed.mp3',
+                startTime: 0,
+                endTime: null,
+                duration: 0
+            }
+        ];
+        
+        let currentTrackIndex = 0;
+        const audio = new Audio();
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTime = document.getElementById('currentTime');
+        const duration = document.getElementById('duration');
+        const trackList = document.getElementById('trackList');
+        const currentTrackTitle = document.getElementById('currentTrackTitle');
+        const stickyPlayer = document.querySelector('.sticky-audio-player');
+        
+        // Создание списка треков
+        function renderTrackList() {
+            trackList.innerHTML = '';
+            tracks.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+                item.innerHTML = `
+                    <span class="track-title">${track.title}</span>
+                    <button class="play-track-btn" data-index="${index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                `;
+                trackList.appendChild(item);
+                item.querySelector('.play-track-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    loadTrack(index);
+                    playAudio();
+                    togglePlayerExpand();
+                });
+            });
+        }
+        
+        // Загрузка трека
+        function loadTrack(index) {
+            currentTrackIndex = index;
+            const track = tracks[index];
+            audio.src = track.src;
+            audio.load();
+            currentTrackTitle.querySelector('.track-title-text').textContent = track.title;
+            renderTrackList();
+        }
+        
+        // Воспроизведение/пауза
+        function playAudio() {
+            if (audio.paused || audio.ended) {
+                const track = tracks[currentTrackIndex];
+                if (audio.currentTime === 0 || audio.ended) {
+                    audio.currentTime = track.startTime || 0;
+                }
+                
+                audio.play().catch(e => console.log("Ошибка воспроизведения:", e));
+                playBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            }
+        }
+        
+        // Обновление прогресса
+        function updateProgress() {
+            const track = tracks[currentTrackIndex];
+            if (audio.duration) {
+                const segmentDuration = track.endTime ? Math.min(track.endTime - (track.startTime || 0), audio.duration - (track.startTime || 0)) : audio.duration;
+                const elapsed = audio.currentTime - (track.startTime || 0);
+                const percent = (elapsed / segmentDuration) * 100;
+                
+                progressBar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+                currentTime.textContent = formatTime(audio.currentTime);
+                duration.textContent = formatTime(track.endTime || audio.duration);
+            }
+        }
+        
+        // Форматирование времени
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Проверка достижения конца отрезка
+        function checkSegmentEnd() {
+            const track = tracks[currentTrackIndex];
+            if (track.endTime && audio.currentTime >= track.endTime) {
+                audio.pause();
+                playBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                audio.currentTime = track.startTime || 0;
+            }
+        }
+        
+        // События
+        audio.addEventListener('timeupdate', () => {
+            updateProgress();
+            checkSegmentEnd();
+        });
+        
+        audio.addEventListener('ended', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(currentTrackIndex);
+            playAudio();
+        });
+        
+        playBtn.addEventListener('click', playAudio);
+        nextBtn.addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(currentTrackIndex);
+            playAudio();
+        });
+        prevBtn.addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrackIndex);
+            playAudio();
+        });
+        
+        progressContainer.addEventListener('click', (e) => {
+            const track = tracks[currentTrackIndex];
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const percent = clickX / width;
+            
+            const segmentDuration = track.endTime ? Math.min(track.endTime - (track.startTime || 0), audio.duration - (track.startTime || 0)) : audio.duration;
+            const newPos = (track.startTime || 0) + percent * segmentDuration;
+            audio.currentTime = Math.min(newPos, track.endTime || audio.duration);
+        });
+        
+        // Управление плеером
+        let isPlayerExpanded = false;
+        
+        function togglePlayerExpand() {
+            if (isPlayerExpanded) {
+                stickyPlayer.classList.remove('expanded');
+                stickyPlayer.classList.add('collapsed');
+            } else {
+                stickyPlayer.classList.remove('collapsed');
+                stickyPlayer.classList.add('expanded');
+            }
+            isPlayerExpanded = !isPlayerExpanded;
+        }
+        
+        currentTrackTitle.addEventListener('click', (e) => {
+            if (!e.target.closest('.play-track-btn')) {
+                togglePlayerExpand();
+            }
+        });
+        
+        // Автоматическое раскрытие при наведении на десктопе
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) {
+            stickyPlayer.addEventListener('mouseenter', () => {
+                if (!isPlayerExpanded) {
+                    stickyPlayer.classList.remove('collapsed');
+                    stickyPlayer.classList.add('expanded');
+                }
+            });
+            
+            stickyPlayer.addEventListener('mouseleave', () => {
+                if (!isPlayerExpanded && !stickyPlayer.classList.contains('was-clicked-expanded')) {
+                    stickyPlayer.classList.remove('expanded');
+                    stickyPlayer.classList.add('collapsed');
+                }
+            });
+            
+            currentTrackTitle.addEventListener('click', () => {
+                stickyPlayer.classList.add('was-clicked-expanded');
+            });
+        }
+        
+        // Инициализация
+        renderTrackList();
+        loadTrack(currentTrackIndex);
+        
+        // Функция для вызова из карточек
+        window.playTrackById = function(trackId) {
+            const index = tracks.findIndex(t => t.id === trackId);
+            if (index !== -1) {
+                loadTrack(index);
+                audio.onloadedmetadata = function() {
+                    const track = tracks[index];
+                    audio.currentTime = track.startTime || 0;
+                    playAudio();
+                    
+                    setTimeout(() => {
+                        if (!isPlayerExpanded) {
+                            togglePlayerExpand();
+                        }
+                    }, 100);
+                };
+            }
+        };
+    </script>
+</body>
+</html>
