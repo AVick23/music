@@ -85,6 +85,156 @@ h1 {
   font-weight: 300;
 }
 
+/* Contacts Section (New) */
+.contacts-section {
+  padding: 2rem 0;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  margin: 2rem 0;
+  box-shadow: var(--shadow-outset);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.contacts-section:hover {
+  box-shadow: var(--shadow-inset);
+}
+
+.contacts-content h2 {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: var(--font-size-h2);
+}
+
+.section-description {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: var(--font-size-body);
+}
+
+.contacts-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-mobile);
+  transition: var(--transition);
+}
+
+.contact-method:hover {
+  background: var(--highlight);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.contact-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.contact-method:hover .contact-icon {
+  background: var(--accent-hover);
+}
+
+.contact-details h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.contact-details p {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.contact-note {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-mobile);
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.contact-note i {
+  color: var(--accent);
+  margin-top: 0.2rem;
+  font-size: 1.1rem;
+}
+
+/* Buttons (Updated for Contacts) */
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-mobile);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: none;
+}
+
+.button.primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-outset);
+}
+
+.button.primary:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-inset);
+  transform: translateY(-1px);
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--highlight);
+  border: 1px solid var(--highlight);
+  box-shadow: none;
+}
+
+.button.secondary:hover {
+  background: rgba(110, 133, 178, 0.1);
+  border-color: var(--accent-hover);
+}
+
+/* Fade-in Animation (New) */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-up.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Card Styles */
 .card {
   background: var(--bg-secondary);
@@ -888,6 +1038,22 @@ footer {
     padding: 25px 20px;
     margin-top: 30px;
   }
+
+  /* Contacts Mobile */
+  .contacts-methods {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-method {
+    padding: 0.75rem;
+  }
+
+  .contact-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -962,6 +1128,16 @@ footer {
     padding: 10px 20px;
     font-size: clamp(0.95rem, 3vw, 1.1rem);
   }
+
+  /* Contacts Small Mobile */
+  .contacts-section {
+    margin: 1rem 0;
+    padding: 1.5rem 0;
+  }
+
+  .contacts-content h2 {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
 }
 
 /* Scrollbar Styling */
@@ -991,7 +1167,8 @@ footer {
   .image-item:hover,
   .quote:hover,
   .code-block:hover,
-  .nav-container:hover {
+  .nav-container:hover,
+  .contact-method:hover {
     transform: none;
     box-shadow: var(--shadow-outset);
   }
@@ -1000,7 +1177,9 @@ footer {
   .play-track-btn:hover,
   .listen-btn:hover,
   .link-btn:hover,
-  .nav-btn:hover {
+  .nav-btn:hover,
+  .button.primary:hover,
+  .button.secondary:hover {
     transform: scale(1.02);
   }
 }
